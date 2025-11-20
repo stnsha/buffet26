@@ -78,18 +78,12 @@
                         >
                         <span class="ml-2 text-sm text-gray-600">Remember me</span>
                     </label>
-
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-gray-900 hover:underline">
-                            Forgot password?
-                        </a>
-                    @endif
                 </div>
 
                 <!-- Login Button -->
                 <button
                     type="submit"
-                    class="w-full bg-gray-900 text-white py-2.5 rounded-lg font-medium hover:bg-gray-800 transition"
+                    class="w-full bg-gray-900 text-white py-2.5 rounded-lg font-medium cursor-pointer hover:bg-gray-800 transition"
                 >
                     Sign In
                 </button>

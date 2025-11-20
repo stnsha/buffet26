@@ -1,67 +1,99 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard - {{ config('app.name', 'Laravel') }}</title>
+@extends('layouts.app')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="min-h-screen">
-        <!-- Header -->
-        <header class="bg-white shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-semibold text-gray-900">Dashboard</h1>
+@section('title', 'Dashboard')
 
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button
-                            type="submit"
-                            class="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition"
-                        >
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </header>
+@section('page-description')
+    Welcome back, {{ Auth::user()->name }}! Here's what's happening today.
+@endsection
 
-        <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Welcome Card -->
-            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-2">
-                    Welcome, {{ Auth::user()->name }}!
-                </h2>
-                <p class="text-gray-600">
-                    You are successfully logged in to your dashboard.
-                </p>
-            </div>
+@section('content')
+    <!-- Bento Grid Layout -->
+    <div class="space-y-6">
+        <!-- First Row: Venue Cards (Bento Style) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Venue 1 Card -->
+            <x-venue-card
+                name="Venue 1"
+                :totalCapacity="500"
+                :availableCapacity="125"
+                :totalSales="18750.00"
+            />
 
-            <!-- User Info Card -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Information</h3>
+            <!-- Venue 2 Card -->
+            <x-venue-card
+                name="Venue 2"
+                :totalCapacity="300"
+                :availableCapacity="80"
+                :totalSales="11200.00"
+            />
+        </div>
 
-                <div class="space-y-3">
-                    <div>
-                        <span class="text-sm font-medium text-gray-700">Name:</span>
-                        <span class="text-sm text-gray-900 ml-2">{{ Auth::user()->name }}</span>
-                    </div>
-
-                    <div>
-                        <span class="text-sm font-medium text-gray-700">Email:</span>
-                        <span class="text-sm text-gray-900 ml-2">{{ Auth::user()->email }}</span>
-                    </div>
-
-                    <div>
-                        <span class="text-sm font-medium text-gray-700">Member Since:</span>
-                        <span class="text-sm text-gray-900 ml-2">{{ Auth::user()->created_at->format('F j, Y') }}</span>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <!-- Second Row: Latest Orders Table -->
+        <x-orders-table :orders="[
+            [
+                'id' => 'ORD-2024-001',
+                'customer' => 'Ahmad Ibrahim',
+                'venue' => 'Venue 1',
+                'amount' => 450.00,
+                'status' => 'confirmed',
+                'date' => '2024-11-20',
+            ],
+            [
+                'id' => 'ORD-2024-002',
+                'customer' => 'Siti Nurhaliza',
+                'venue' => 'Venue 2',
+                'amount' => 320.00,
+                'status' => 'pending',
+                'date' => '2024-11-20',
+            ],
+            [
+                'id' => 'ORD-2024-003',
+                'customer' => 'Lee Wei Ming',
+                'venue' => 'Venue 1',
+                'amount' => 680.00,
+                'status' => 'completed',
+                'date' => '2024-11-19',
+            ],
+            [
+                'id' => 'ORD-2024-004',
+                'customer' => 'Priya Sharma',
+                'venue' => 'Venue 2',
+                'amount' => 275.00,
+                'status' => 'confirmed',
+                'date' => '2024-11-19',
+            ],
+            [
+                'id' => 'ORD-2024-005',
+                'customer' => 'Muhammad Ali',
+                'venue' => 'Venue 1',
+                'amount' => 550.00,
+                'status' => 'completed',
+                'date' => '2024-11-18',
+            ],
+            [
+                'id' => 'ORD-2024-006',
+                'customer' => 'Tan Mei Ling',
+                'venue' => 'Venue 2',
+                'amount' => 390.00,
+                'status' => 'cancelled',
+                'date' => '2024-11-18',
+            ],
+            [
+                'id' => 'ORD-2024-007',
+                'customer' => 'Kumar Rajesh',
+                'venue' => 'Venue 1',
+                'amount' => 725.00,
+                'status' => 'confirmed',
+                'date' => '2024-11-17',
+            ],
+            [
+                'id' => 'ORD-2024-008',
+                'customer' => 'Nurul Aina',
+                'venue' => 'Venue 2',
+                'amount' => 480.00,
+                'status' => 'completed',
+                'date' => '2024-11-17',
+            ],
+        ]" />
     </div>
-</body>
-</html>
+@endsection
