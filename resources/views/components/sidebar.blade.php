@@ -69,6 +69,19 @@
                     </a>
                 </li>
 
+                <!-- Users -->
+                <li>
+                    <a
+                        href="{{ route('users.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 text-grey-900 hover:bg-grey-100 transition-all text-[13px] font-medium border-l-[3px] {{ request()->routeIs('users.*') ? 'bg-grey-100 border-l-primary-600' : 'border-l-transparent' }}"
+                    >
+                        <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <span>Users</span>
+                    </a>
+                </li>
+
                 <!-- Settings -->
                 <li>
                     <a

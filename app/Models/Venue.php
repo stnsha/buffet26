@@ -10,4 +10,22 @@ class Venue extends Model
     use SoftDeletes;
 
     protected $fillable = ["name", "code", "address", "gmap_url", "waze_url"];
+
+    /**
+     * Get the user roles for the venue.
+     */
+    public function userRoles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    /**
+     * Get the users assigned to the venue.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_roles')
+            ->withPivot('role', 'contact')
+            ->withTimestamps();
+    }
 }

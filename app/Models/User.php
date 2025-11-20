@@ -45,4 +45,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the user roles for the user.
+     */
+    public function userRoles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
+
+    /**
+     * Get the venues the user is assigned to.
+     */
+    public function venues()
+    {
+        return $this->belongsToMany(Venue::class, 'user_roles')
+            ->withPivot('role', 'contact')
+            ->withTimestamps();
+    }
 }
