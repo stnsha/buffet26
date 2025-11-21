@@ -24,5 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/user-roles/{userRole}', [UserRoleController::class, 'destroy'])->name('user-roles.destroy');
     Route::post('/users/{user}/assign-venue', [UserRoleController::class, 'assignVenue'])->name('users.assign-venue');
     Route::post('/users/{user}/remove-venue', [UserRoleController::class, 'removeVenue'])->name('users.remove-venue');
+    Route::post('/users/{user}/update-venues', [UserRoleController::class, 'updateUserVenues'])->name('users.update-venues');
 });
 

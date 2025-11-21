@@ -83,7 +83,7 @@
                                 <!-- Edit Button -->
                                 <button
                                     onclick="openEditModal({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}')"
-                                    class="text-info-600 hover:text-info-900 transition-colors"
+                                    class="text-info-600 hover:text-info-900 transition-colors cursor-pointer"
                                     title="Edit User"
                                 >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,14 +91,17 @@
                                     </svg>
                                 </button>
 
-                                <!-- Assign to Venue Button -->
+                                <!-- Edit User Venues Button -->
                                 <button
-                                    onclick="openAssignVenueModal({{ $user->id }}, '{{ $user->name }}')"
-                                    class="text-success-600 hover:text-success-900 transition-colors"
-                                    title="Assign to Venue"
+                                    class="text-success-600 hover:text-success-900 transition-colors cursor-pointer edit-venues-btn"
+                                    data-user-id="{{ $user->id }}"
+                                    data-user-name="{{ $user->name }}"
+                                    data-user-venues='@json($user->userRoles->map(function($ur) { return ["venue_id" => $ur->venue_id, "role" => $ur->role, "contact" => $ur->contact]; }))'
+                                    title="Edit User Venues"
                                 >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                 </button>
 
@@ -106,7 +109,7 @@
                                 @if($user->userRoles->count() > 0)
                                     <button
                                         onclick="confirmDelete({{ $user->userRoles->first()->id }}, '{{ $user->name }}')"
-                                        class="text-danger-600 hover:text-danger-900 transition-colors"
+                                        class="text-danger-600 hover:text-danger-900 transition-colors cursor-pointer"
                                         title="Delete User"
                                     >
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
