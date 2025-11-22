@@ -28,4 +28,12 @@ class Venue extends Model
             ->withPivot('role', 'contact')
             ->withTimestamps();
     }
+
+    /**
+     * Get the capacities for the venue.
+     */
+    public function capacities()
+    {
+        return $this->hasMany(Capacity::class);
+    }
 }

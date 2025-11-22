@@ -10,4 +10,12 @@ class Capacity extends Model
     use SoftDeletes;
 
     protected $fillable = ["venue_id", "venue_date", "full_capacity", "min_capacity", "available_capacity", "total_paid", "total_reserved", "status"];
+
+    /**
+     * Get the venue that owns the capacity.
+     */
+    public function venue()
+    {
+        return $this->belongsTo(Venue::class);
+    }
 }

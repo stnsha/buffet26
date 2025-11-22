@@ -1,3 +1,7 @@
+@php
+    $venues = \App\Models\Venue::all();
+@endphp
+
 <aside
     id="sidebar"
     class="fixed left-0 top-[60px] bottom-0 w-[230px] bg-white border-r border-grey-200 z-[1040] transition-transform duration-300 ease-in-out overflow-hidden flex flex-col -translate-x-full"
@@ -31,17 +35,45 @@
                 </li>
 
                 <!-- Venues -->
-                <li>
-                    <a
-                        href="#"
-                        class="flex items-center gap-3 px-4 py-3 text-grey-900 hover:bg-grey-100 transition-all text-[13px] font-medium border-l-[3px] border-l-transparent cursor-pointer"
-                    >
-                        <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                        <span>Venues</span>
-                    </a>
-                </li>
+                @if($venues->count() > 0)
+                    <li>
+                        <button
+                            type="button"
+                            onclick="toggleVenuesDropdown()"
+                            class="flex items-center justify-between w-full px-4 py-3 text-grey-900 hover:bg-grey-100 transition-all text-[13px] font-medium border-l-[3px] {{ request()->routeIs('capacities.*') ? 'bg-grey-100 border-l-primary-600' : 'border-l-transparent' }} cursor-pointer"
+                        >
+                            <div class="flex items-center gap-3">
+                                <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>Venues</span>
+                            </div>
+                            <svg
+                                id="venuesChevron"
+                                class="w-3 h-3 transition-transform duration-200"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Venues Dropdown -->
+                        <ul id="venuesDropdown" class="hidden bg-grey-50">
+                            @foreach($venues as $venue)
+                                <li>
+                                    <a
+                                        href="{{ route('capacities.index', $venue) }}"
+                                        class="flex items-center gap-3 px-4 py-2.5 pl-11 text-grey-700 hover:bg-grey-100 transition-all text-[12px] border-l-[3px] {{ request()->routeIs('capacities.index') && request()->route('venue')->id === $venue->id ? 'bg-grey-100 border-l-primary-600' : 'border-l-transparent' }}"
+                                    >
+                                        <span>{{ $venue->name }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
 
                 <!-- Orders -->
                 <li>
@@ -121,3 +153,30 @@
         </form>
     </div>
 </aside>
+
+<script>
+    function toggleVenuesDropdown() {
+        const dropdown = document.getElementById('venuesDropdown');
+        const chevron = document.getElementById('venuesChevron');
+
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+            chevron.classList.add('rotate-180');
+        } else {
+            dropdown.classList.add('hidden');
+            chevron.classList.remove('rotate-180');
+        }
+    }
+
+    // Auto-expand venues dropdown if on a capacity page
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(request()->routeIs('capacities.*'))
+            const dropdown = document.getElementById('venuesDropdown');
+            const chevron = document.getElementById('venuesChevron');
+            if (dropdown && chevron) {
+                dropdown.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            }
+        @endif
+    });
+</script>
